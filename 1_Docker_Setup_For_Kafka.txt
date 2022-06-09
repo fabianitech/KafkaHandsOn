@@ -42,3 +42,15 @@ $ docker stop kafka zookeeper
 $ docker start zookeeper
 ########## Wait for 5 seconds before triggering kafka ############
 $ docker start kafka
+
+
+
+#Misc commands
+    #List All Containers
+    $ docker ps --all
+
+    #Stop a specific container
+    $ docker stop <CONTAINER_ID>
+
+    #Remove a specific container
+    docker rm <CONTAINER_ID>
