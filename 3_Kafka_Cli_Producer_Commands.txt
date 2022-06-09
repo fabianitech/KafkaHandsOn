@@ -1,0 +1,5 @@
+# Cmd Kafka List Topics
+$ docker exec kafka /bin/kafka-topics --list --zookeeper localhost:32181
+
+# Open Console Producer to write to Topic
+$ docker exec -it kafka /bin/kafka-console-producer --broker-list localhost:29092 --topic myTopic

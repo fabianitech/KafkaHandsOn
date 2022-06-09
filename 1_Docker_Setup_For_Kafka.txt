@@ -34,7 +34,7 @@ $ docker run -d --net=host --name=zookeeper -e ZOOKEEPER_CLIENT_PORT=32181 -e ZO
     192.168.56.101
 
 #Start Kafka
-$ docker run -d --net=host --name=kafka -e KAFKA_ZOOKEEPER_CONNECT=localhost:32181 -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://<REPLACE_WITH_WSL_OR_DOCKER_MACHINE_IP>:29092 -e KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 cp-kafka:6.1.2
+$ docker run -d --net=host --name=kafka -e KAFKA_ZOOKEEPER_CONNECT=localhost:32181 -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://<REPLACE_WITH_WSL_OR_DOCKER_MACHINE_IP>:29092 -e KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 -e KAFKA_ADVERTISED_HOST_NAME=172.27.96.1 -e KAFKA_PORT=29092 cp-kafka:6.1.2
 # KAFKA_ZOOKEEPER_CONNECT => Zookeeper address
 # KAFKA_ADVERTISED_LISTENERS => Tells Kafka what interface to bind to when connecting to kafka else it will connect to localhost which is wrong
 # KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR => Default replication factor
