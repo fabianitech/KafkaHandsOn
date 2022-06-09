@@ -34,6 +34,9 @@ $ docker run -d --net=host --name=zookeeper -e ZOOKEEPER_CLIENT_PORT=32181 -e ZO
 #Start Kafka
 $ docker run -d --net=host --name=kafka -e KAFKA_ZOOKEEPER_CONNECT=localhost:32181 -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://<REPLACE_WITH_WSL_OR_DOCKER_MACHINE_IP>:29092 -e KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 cp-kafka:6.1.2
 
+# Login to Kafka container to perform commands via shell
+$ docker exec -it kafka /bin/sh
+
 #Shutdown Kafka and Zookeeper containers
 $ docker stop kafka zookeeper
 
