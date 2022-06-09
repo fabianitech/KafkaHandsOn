@@ -1,0 +1,38 @@
+# Create a new topic with 2 partitions
+$ docker exec -it kafka /bin/kafka-topics --topic newTopic --zookeeper localhost:32181 --create --partitions 2 --replication-factor 1
+
+#Create Producer for topic
+$ docker exec -it kafka /bin/kafka-console-producer --broker-list localhost:29092 --topic newTopic
+
+# Create a Consumer for a group on 2 terminals
+$ docker exec -it kafka /bin/kafka-console-consumer --bootstrap-server localhost:29092 --topic newTopic --group firstGroup
+
+
+
+
+#Create new Topic and create producer and consumer for them
+$ docker exec -it kafka /bin/kafka-topics --topic newTopic2 --zookeeper localhost:32181 --create --partitions 2 --replication-factor 1
+$ docker exec -it kafka /bin/kafka-console-producer --broker-list localhost:29092 --topic newTopic2
+$ docker exec -it kafka /bin/kafka-console-consumer --bootstrap-server localhost:29092 --topic newTopic2 --group secondGroup
+$ docker exec -it kafka /bin/kafka-console-consumer --bootstrap-server localhost:29092 --topic newTopic2 --group secondGroup # on new terminal
+
+
+# Describe Kafka Consumer Groups
+$ docker exec -it kafka /bin/kafka-consumer-groups --bootstrap-server localhost:29092 --describe --group firstGroup
+
+# List all consumer groups
+$ docker exec -it kafka /bin/kafka-consumer-groups --bootstrap-server localhost:29092 --describe 
+
+#List all consumer groups
+$ docker exec -it kafka /bin/kafka-consumer-groups --bootstrap-server localhost:29092 --list --state
+
+# Describe all consumer groups and states
+$ docker exec -it kafka /bin/kafka-consumer-groups --bootstrap-server localhost:29092 --describe --all-groups  --state
+
+
+
+
+#Delete consumer group
+#Try deleting group with consumers
+# Then try deletion without consumers
+$ docker exec -it kafka /bin/kafka-consumer-groups --bootstrap-server localhost:29092 --delete --group secondGroup
