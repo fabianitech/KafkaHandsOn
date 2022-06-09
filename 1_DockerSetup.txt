@@ -1,0 +1,44 @@
+#Start Docker
+    #Docker Desktop
+    #Start Docker service using "Docker Desktop.exe"
+
+    #Docker Toolbox
+    $ docker-machine status # to check if docker is running
+    Stopped
+    $ docker-start #This will start the linux images used by docker
+
+
+# Pull docker images for confluent kafka and confluent zookeeper
+$ docker pull confluentinc/cp-kafka:6.1.2
+$ docker pull confluentinc/cp-zookeeper:6.1.2
+
+#Check if images were downloaded or not by listing all images
+$ docker images --all
+
+#Renamed images for ease of use
+$ docker tag confluentinc/cp-kafka:6.1.2 cp-kafka:6.1.2
+$ docker tag confluentinc/cp-zookeeper:6.1.2 cp-zookeeper:6.1.2
+
+#Start Zookeeper
+$ docker run -d --net=host --name=zookeeper -e ZOOKEEPER_CLIENT_PORT=32181 -e ZOOKEEPER_TICK_TIME=2000 -e ZOOKEEPER_SYNC_LIMIT=2 cp-zookeeper:6.1.2
+
+#Get Ip address of Zookeeper to reference in Kafka
+    #For Docker Desktop
+        #Open Cmd and type "ipconfig"
+        # Use the WSL ip address
+
+    # For Docker Toolbox
+    $ docker-machine ip
+    192.168.56.101
+
+#Start Kafka
+$ docker run -d --net=host --name=kafka -e KAFKA_ZOOKEEPER_CONNECT=localhost:32181 -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://<REPLACE_WITH_WSL_OR_DOCKER_MACHINE_IP>:29092 -e KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 cp-kafka:6.1.2
+
+#Shutdown Kafka and Zookeeper containers
+$ docker stop kafka zookeeper
+
+
+#To restart Kafka and Zookeeper containers in the next session
+$ docker start zookeeper
+########## Wait for 5 seconds before triggering kafka ############
+$ docker start kafka
