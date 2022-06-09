@@ -1,0 +1,32 @@
+# List number of brokers
+$ /bin/zookeeper-shell localhost:32181 ls /brokers/ids
+
+# Create First Topic
+    # Warning: Avoid using period "." and underscopre "_" due to limitation in metric names
+$ /bin/kafka-topics --topic myTopic --zookeeper localhost:32181 --create --partitions 1 --replication-factor 1
+$ /bin/kafka-topics --topic myTopic2 --zookeeper localhost:32181 --create --partitions 1 --replication-factor 1
+$ /bin/kafka-topics --topic myTopic3 --zookeeper localhost:32181 --create --partitions 1 --replication-factor 1
+$ /bin/kafka-topics --topic myTopic4 --zookeeper localhost:32181 --create --partitions 1 --replication-factor 1
+$ /bin/kafka-topics --topic myTopic5 --zookeeper localhost:32181 --create --partitions 1 --replication-factor 1
+
+# List Topics
+$ /bin/kafka-topics --list --zookeeper localhost:32181
+
+# Describe All Topics
+$ /bin/kafka-topics --zookeeper localhost:32181 --describe
+
+# Describe single topic
+$ /bin/kafka-topics --zookeeper localhost:32181 --describe --topic myTopic
+
+# Alter Topic
+$ /bin/kafka-topics --zookeeper localhost:32181 --alter --topic myTopic --partitions 5
+    #Note one can only add partitions and not remove them
+    #Note addition of partitions changes the key-hashing technique hence not to be used for Consumer depending on Key-based ordering
+
+# Delete Topic
+# Does not work on Windows without WSL when used directly using tar
+$ /bin/kafka-topics --zookeeper localhost:32181 --delete --topic myTopic3
+
+# Check error
+# Does not work on Windows without WSL when used directly using tar
+$ /bin/kafka-topics --zookeeper localhost:32181 --delete --topic myTopicNotCreated
