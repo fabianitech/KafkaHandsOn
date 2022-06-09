@@ -13,14 +13,3 @@ $ docker exec kafka /bin/kafka-topics --zookeeper localhost:32181 --describe --t
 
 # Produce Messages using Key
 $ docker exec -it kafka /bin/kafka-console-producer --broker-list localhost:29092 --topic myTopic --property parse.key=true --property key.separator=:
-
-
-
-#Start Consumer to ignore consuming previous messages
-$ docker exec -it kafka /bin/kafka-console-consumer --bootstrap-server localhost:29092 --topic myTopic 
-
-#Start Consumer to read from beginning
-$ docker exec -it kafka /bin/kafka-console-consumer --bootstrap-server localhost:29092 --topic myTopic --from-beginning
-
-#Start Consumer with Keys displayed
-$ docker exec -it kafka /bin/kafka-console-consumer --bootstrap-server localhost:29092 --topic myTopic --from-beginning --formatter kafka.tools.DefaultMessageFormatter --property print.timestamp=true --property print.key=true --property print.value=true
