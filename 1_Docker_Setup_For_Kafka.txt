@@ -21,8 +21,8 @@ $ docker tag confluentinc/cp-zookeeper:6.1.2 cp-zookeeper:6.1.2
 
 #Start Zookeeper
 $ docker run -d --net=host --name=zookeeper -e ZOOKEEPER_CLIENT_PORT=32181 -e ZOOKEEPER_TICK_TIME=2000 -e ZOOKEEPER_SYNC_LIMIT=2 cp-zookeeper:6.1.2
-# ZOOKEEPER_TICK_TIME => the basic time unit in milliseconds used by ZooKeeper. It is used to do heartbeats and the minimum session timeout will be twice the tickTime.
-# ZOOKEEPER_SYNC_LIMIT => Maximum number of ticks for the followers to wait to synchronize with the leader before the followers time out
+    # ZOOKEEPER_TICK_TIME => the basic time unit in milliseconds used by ZooKeeper. It is used to do heartbeats and the minimum session timeout will be twice the tickTime.
+    # ZOOKEEPER_SYNC_LIMIT => Maximum number of ticks for the followers to wait to synchronize with the leader before the followers time out
 
 #Get Ip address of Zookeeper to reference in Kafka
     #For Docker Desktop
@@ -35,9 +35,10 @@ $ docker run -d --net=host --name=zookeeper -e ZOOKEEPER_CLIENT_PORT=32181 -e ZO
 
 #Start Kafka
 $ docker run -d --net=host --name=kafka -e KAFKA_ZOOKEEPER_CONNECT=localhost:32181 -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://<REPLACE_WITH_WSL_OR_DOCKER_MACHINE_IP>:29092 -e KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 -e KAFKA_ADVERTISED_HOST_NAME=172.27.96.1 -e KAFKA_PORT=29092 cp-kafka:6.1.2
-# KAFKA_ZOOKEEPER_CONNECT => Zookeeper address
-# KAFKA_ADVERTISED_LISTENERS => Tells Kafka what interface to bind to when connecting to kafka else it will connect to localhost which is wrong
-# KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR => Default replication factor
+    # KAFKA_ZOOKEEPER_CONNECT => Zookeeper address
+    # KAFKA_ADVERTISED_LISTENERS => Tells Kafka what interface to bind to when connecting to kafka else it will connect to localhost which is wrong
+    # KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR => Default replication factor
+#If you list all docker containers using "docker ps --all" and you see status as "Exited (1) Less than a second ago" view logs using "docker logs --tail=50 <CONTAINER_ID>" and it displays an message "port is deprecated. Please use KAFKA_ADVERTISED_LISTENERS instead" and it stalls with it, remove "-e KAFKA_PORT=29092" parameter and start kafka container again, it should be resolved.
 
 # Login to Kafka container to perform commands via shell
 $ docker exec -it kafka /bin/sh
@@ -61,4 +62,10 @@ $ docker start kafka
     $ docker stop <CONTAINER_ID>
 
     #Remove a specific container
-    docker rm <CONTAINER_ID>
+    $ docker rm <CONTAINER_ID>
+    
+    #View container logs
+    $ docker logs <CONTAINER_ID>
+    
+    #View container logs of last 50 lines
+    $ docker logs --tail=50 <CONTAINER_ID>
